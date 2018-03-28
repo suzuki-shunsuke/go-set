@@ -25,11 +25,15 @@ func main() {
 	fmt.Println(s.HasAny("a", "c")) // true
 	s.Add("c")
 	s.Adds("d", "e")
-	fmt.Println(s.ToList()) // []string{"a", "b", "c", "d", "e"}
+	s.Remove("a")
+	s.Removes("b", "c")
+	fmt.Println(s.ToList()) // []string{"d", "e"}
 	// Iteration
 	for k, _ := range s.ToMap(false) {
 		fmt.Println(k)
 	}
+	s.Clear()
+	fmt.Println(s.Len()) // 0
 }
 ```
 
@@ -42,6 +46,10 @@ func main() {
 * https://github.com/xtgo/set
 * https://github.com/goware/set
 * https://github.com/zoumo/goset
+
+## Change Log
+
+See [CHANGELOG](CHANGELOG.md).
 
 ## License
 
