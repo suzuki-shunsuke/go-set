@@ -17,6 +17,18 @@ func TestStrSetHas(t *testing.T) {
 	if !s.Has(k) {
 		t.Fatal(s)
 	}
+	s = &set.StrSet{}
+	if s.Has(k) {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetAdd(t *testing.T) {
+	s := &set.StrSet{}
+	s.Add("hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
 }
 
 func TestStrSetAdds(t *testing.T) {
@@ -26,6 +38,11 @@ func TestStrSetAdds(t *testing.T) {
 	}
 	s.Adds("hello", "foo", "bar")
 	if s.Len() != 4 {
+		t.Fatal(s)
+	}
+	s = &set.StrSet{}
+	s.Adds("hello", "foo")
+	if s.Len() != 2 {
 		t.Fatal(s)
 	}
 }
@@ -92,6 +109,10 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	}
 	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
 		t.Fatal("Unmarshal should fail")
+	}
+	s = &set.StrSet{}
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
+		t.Fatal(err)
 	}
 }
 
