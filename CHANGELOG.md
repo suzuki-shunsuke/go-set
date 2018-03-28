@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/suzuki-shunsuke/go-set/compare/v2.1.0...v2.1.1) (2018-03-28)
+
+
+### Bug Fixes
+
+* prevent panic when data is nil ([#5](https://github.com/suzuki-shunsuke/go-set/issues/5)) ([e1a5811](https://github.com/suzuki-shunsuke/go-set/commit/e1a5811))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/suzuki-shunsuke/go-set/compare/v2.0.0...v2.1.0) (2018-03-28)
 
