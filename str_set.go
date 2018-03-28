@@ -19,18 +19,18 @@ func NewStrSet(args ...string) *StrSet {
 }
 
 // Len returns the number of elements of the set.
-func (set StrSet) Len() int {
+func (set *StrSet) Len() int {
 	return len(set.data)
 }
 
 // Has returns whether a given string is included in the set.
-func (set StrSet) Has(k string) bool {
+func (set *StrSet) Has(k string) bool {
 	_, ok := set.data[k]
 	return ok
 }
 
 // HasAll returns whether all given strings are included in the set.
-func (set StrSet) HasAll(args ...string) bool {
+func (set *StrSet) HasAll(args ...string) bool {
 	for _, a := range args {
 		if !set.Has(a) {
 			return false
@@ -40,7 +40,7 @@ func (set StrSet) HasAll(args ...string) bool {
 }
 
 // Has returns whether some given strings are included in the set.
-func (set StrSet) HasAny(args ...string) bool {
+func (set *StrSet) HasAny(args ...string) bool {
 	for _, a := range args {
 		if set.Has(a) {
 			return true
@@ -50,12 +50,12 @@ func (set StrSet) HasAny(args ...string) bool {
 }
 
 // Add adds a string to the set.
-func (set StrSet) Add(k string) {
+func (set *StrSet) Add(k string) {
 	set.data[k] = struct{}{}
 }
 
 // Adds adds strings to the set.
-func (set StrSet) Adds(args ...string) {
+func (set *StrSet) Adds(args ...string) {
 	for _, k := range args {
 		set.data[k] = struct{}{}
 	}
