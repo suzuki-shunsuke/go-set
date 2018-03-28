@@ -30,6 +30,47 @@ func TestStrSetAdds(t *testing.T) {
 	}
 }
 
+func TestStrSetRemove(t *testing.T) {
+	s := set.NewStrSet("hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Remove("foo")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Remove("hello")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetRemoves(t *testing.T) {
+	s := set.NewStrSet("hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Removes("foo", "bar")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Removes("hello", "foo")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetClear(t *testing.T) {
+	s := set.NewStrSet("hello", "bar")
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	s.Clear()
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
 func TestStrSetMarshalJSON(t *testing.T) {
 	s := set.NewStrSet("hello")
 	b, err := s.MarshalJSON()

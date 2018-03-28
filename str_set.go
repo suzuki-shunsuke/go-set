@@ -61,6 +61,23 @@ func (set *StrSet) Adds(args ...string) {
 	}
 }
 
+// Remove removes a string from the set.
+func (set *StrSet) Remove(k string) {
+	delete(set.data, k)
+}
+
+// Removes removes strings from the set.
+func (set *StrSet) Removes(args ...string) {
+	for _, k := range args {
+		delete(set.data, k)
+	}
+}
+
+// Clear removes all elements.
+func (set *StrSet) Clear() {
+	set.data = map[string]struct{}{}
+}
+
 // MarshalJSON is the implementation of the json.Marshaler interface.
 func (set *StrSet) MarshalJSON() ([]byte, error) {
 	return json.Marshal(set.ToList())
