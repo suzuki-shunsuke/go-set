@@ -25,6 +25,9 @@ func (set *StrSet) Len() int {
 
 // Has returns whether a given string is included in the set.
 func (set *StrSet) Has(k string) bool {
+	if set.data == nil {
+		return false
+	}
 	_, ok := set.data[k]
 	return ok
 }
@@ -51,11 +54,17 @@ func (set *StrSet) HasAny(args ...string) bool {
 
 // Add adds a string to the set.
 func (set *StrSet) Add(k string) {
+	if set.data == nil {
+		set.data = map[string]struct{}{}
+	}
 	set.data[k] = struct{}{}
 }
 
 // Adds adds strings to the set.
 func (set *StrSet) Adds(args ...string) {
+	if set.data == nil {
+		set.data = map[string]struct{}{}
+	}
 	for _, k := range args {
 		set.data[k] = struct{}{}
 	}
@@ -89,6 +98,9 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 	err := json.Unmarshal(b, &arr)
 	if err != nil {
 		return err
+	}
+	if set.data == nil {
+		set.data = map[string]struct{}{}
 	}
 	for _, k := range arr {
 		set.data[k] = struct{}{}
