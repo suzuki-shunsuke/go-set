@@ -186,3 +186,52 @@ func TestStrSetToMap(t *testing.T) {
 		t.Fatal(s)
 	}
 }
+
+func TestStrSetAddSet(t *testing.T) {
+	s := &set.StrSet{}
+	s2 := set.NewStrSet("a", "b")
+	s.AddSet(s2)
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	if s2.Len() != 2 {
+		t.Fatal(s2)
+	}
+	var s3 *set.StrSet
+	s.AddSet(s3)
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	if s3 != nil {
+		t.Fatal(s3)
+	}
+}
+
+func TestStrSetAddSets(t *testing.T) {
+	s := &set.StrSet{}
+	s2 := set.NewStrSet("a", "b")
+	var s3 *set.StrSet
+	s.AddSets(s2, s3)
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	if s2.Len() != 2 {
+		t.Fatal(s2)
+	}
+	if s3 != nil {
+		t.Fatal(s3)
+	}
+}
+
+func TestStrSetClone(t *testing.T) {
+	s := &set.StrSet{}
+	s2 := s.Clone()
+	if s2.Len() != 0 {
+		t.Fatal(s2)
+	}
+	s.Add("foo")
+	s2 = s.Clone()
+	if s2.Len() != 1 {
+		t.Fatal(s2)
+	}
+}
