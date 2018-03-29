@@ -1,6 +1,6 @@
 {
   "name": "go-set",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "release": "standard-version",
     "commitmsg": "validate-commit-msg",
