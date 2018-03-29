@@ -70,6 +70,46 @@ func (set *StrSet) Adds(args ...string) {
 	}
 }
 
+// AddSet adds a StrSet to the set.
+func (set *StrSet) AddSet(other *StrSet) {
+	if other == nil {
+		return
+	}
+	if set.data == nil {
+		set.data = map[string]struct{}{}
+	}
+	for k, _ := range other.data {
+		set.data[k] = struct{}{}
+	}
+}
+
+// AddSets adds StrSets to the set.
+func (set *StrSet) AddSets(others ...*StrSet) {
+	if set.data == nil {
+		set.data = map[string]struct{}{}
+	}
+	for _, other := range others {
+		if other == nil {
+			continue
+		}
+		for k, _ := range other.data {
+			set.data[k] = struct{}{}
+		}
+	}
+}
+
+// Clone returns a new StrSet which has same elements.
+func (set *StrSet) Clone() *StrSet {
+	if set.data == nil {
+		return &StrSet{}
+	}
+	s := NewStrSet()
+	for k, _ := range set.data {
+		s.data[k] = struct{}{}
+	}
+	return s
+}
+
 // Remove removes a string from the set.
 func (set *StrSet) Remove(k string) {
 	delete(set.data, k)
