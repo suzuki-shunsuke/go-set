@@ -42,7 +42,7 @@ func (set *StrSet) HasAll(args ...string) bool {
 	return true
 }
 
-// Has returns whether some given strings are included in the set.
+// HasAny returns whether some given strings are included in the set.
 func (set *StrSet) HasAny(args ...string) bool {
 	for _, a := range args {
 		if set.Has(a) {
