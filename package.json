@@ -5,7 +5,8 @@
     "release": "standard-version",
     "commitmsg": "validate-commit-msg",
     "test": "go test ./... -covermode=atomic",
-    "coverage": "bash coverage.sh"
+    "coverage": "bash coverage.sh",
+    "fmt": "gofmt -s -l -w *.go"
   },
   "devDependencies": {
     "husky": "^0.14.3",

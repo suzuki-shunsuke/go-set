@@ -42,7 +42,7 @@ func (set *StrSet) HasAll(args ...string) bool {
 	return true
 }
 
-// Has returns whether some given strings are included in the set.
+// HasAny returns whether some given strings are included in the set.
 func (set *StrSet) HasAny(args ...string) bool {
 	for _, a := range args {
 		if set.Has(a) {
@@ -78,7 +78,7 @@ func (set *StrSet) AddSet(other *StrSet) {
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
-	for k, _ := range other.data {
+	for k := range other.data {
 		set.data[k] = struct{}{}
 	}
 }
@@ -92,7 +92,7 @@ func (set *StrSet) AddSets(others ...*StrSet) {
 		if other == nil {
 			continue
 		}
-		for k, _ := range other.data {
+		for k := range other.data {
 			set.data[k] = struct{}{}
 		}
 	}
@@ -104,7 +104,7 @@ func (set *StrSet) Clone() *StrSet {
 		return &StrSet{}
 	}
 	s := NewStrSet()
-	for k, _ := range set.data {
+	for k := range set.data {
 		s.data[k] = struct{}{}
 	}
 	return s
@@ -152,7 +152,7 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 func (set *StrSet) ToList() []string {
 	arr := make([]string, len(set.data))
 	i := 0
-	for k, _ := range set.data {
+	for k := range set.data {
 		arr[i] = k
 		i++
 	}
@@ -167,7 +167,7 @@ func (set *StrSet) ToMap(deep bool) map[string]struct{} {
 		return set.data
 	}
 	m := map[string]struct{}{}
-	for k, _ := range set.data {
+	for k := range set.data {
 		m[k] = struct{}{}
 	}
 	return m
