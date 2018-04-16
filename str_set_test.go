@@ -164,6 +164,9 @@ func TestStrSetToList(t *testing.T) {
 	if len(arr) != 2 {
 		t.Fatal(arr)
 	}
+	if size := len(set.NewStrSet().ToList()); size != 0 {
+		t.Fatalf(`len(set.NewStrSet().ToList()) = %d, wanted 0`, size)
+	}
 }
 
 func TestStrSetToMap(t *testing.T) {
