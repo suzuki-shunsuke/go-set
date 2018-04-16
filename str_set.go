@@ -150,7 +150,11 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 
 // ToList returns a list composed of elements of the set.
 func (set *StrSet) ToList() []string {
-	arr := make([]string, len(set.data))
+	size := len(set.data)
+	if size == 0 {
+		return nil
+	}
+	arr := make([]string, size)
 	i := 0
 	for k := range set.data {
 		arr[i] = k
