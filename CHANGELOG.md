@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.1...v2.3.2) (2018-04-16)
+
+
+### Bug Fixes
+
+* fix ToList when size is 0 ([#9](https://github.com/suzuki-shunsuke/go-set/issues/9)) ([fda2653](https://github.com/suzuki-shunsuke/go-set/commit/fda2653))
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.0...v2.3.1) (2018-03-30)
 
