@@ -3,14 +3,19 @@
   "version": "2.3.1",
   "scripts": {
     "release": "standard-version",
-    "commitmsg": "validate-commit-msg",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
     "test": "go test ./... -covermode=atomic",
     "coverage": "bash coverage.sh",
-    "fmt": "gofmt -s -l -w *.go"
+    "lint": "bash lint.sh",
+    "fmt": "git ls-files | grep .go | xargs gofmt -l -s -w",
+    "commitlint-travis": "commitlint-travis"
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.1.3",
+    "@commitlint/config-angular": "^6.1.3",
+    "@commitlint/travis-cli": "^6.1.3",
     "husky": "^0.14.3",
-    "standard-version": "^4.3.0",
-    "validate-commit-msg": "^2.14.0"
-  }
+    "standard-version": "^4.3.0"
+  },
+  "dependencies": {}
 }
