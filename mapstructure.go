@@ -10,7 +10,7 @@ var strSetType = reflect.TypeOf(StrSet{})
 // MapstructureDecodeHookFromListToStrSet decodes []interface{} to StrSet.
 // This function implements the mapstructure.DecodeHookFuncType interface.
 // https://godoc.org/github.com/mitchellh/mapstructure#DecodeHookFuncType
-func MapstructureDecodeHookFromListToStrSet(fromType reflect.Type, toType reflect.Type, from interface{}) (interface{}, error) {
+func MapstructureDecodeHookFromListToStrSet(fromType, toType reflect.Type, from interface{}) (interface{}, error) {
 	if strSetType != toType {
 		return from, nil
 	}
