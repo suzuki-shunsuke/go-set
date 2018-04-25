@@ -1,22 +1,19 @@
+---
 language: go
-
 go:
   - 1.x
-
 before_install:
   - node -v
   - npm -v
 install:
   - npm install
   - go get -t ./...
-  # https://github.com/golang/lint/issues/397
-  # - go get -u golang.org/x/lint/golint
-  - go get honnef.co/go/tools/cmd/gosimple
-  - go get honnef.co/go/tools/cmd/unused
-  - go get honnef.co/go/tools/cmd/staticcheck
+  - go get -u gopkg.in/alecthomas/gometalinter.v2
+  - ln -s $GOPATH/bin/gometalinter.v2 $GOPATH/bin/gometalinter
+  - gometalinter --install
 script:
   - npm run commitlint-travis
-  - bash lint.sh
+  - npm run lint
   - go test -coverprofile=coverage.txt -covermode=atomic
 after_success:
   - bash codecov.sh
