@@ -7,7 +7,7 @@
     "test": "go test ./... -covermode=atomic",
     "coverage": "bash coverage.sh",
     "lint": "bash lint.sh",
-    "fmt": "git ls-files | grep .go | xargs gofmt -l -s -w",
+    "fmt": "go list -f \"{{.Dir}}\" ./... | xargs gofmt -l -s -w",
     "commitlint-travis": "commitlint-travis"
   },
   "devDependencies": {
