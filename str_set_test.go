@@ -89,16 +89,21 @@ func TestStrSetAdd(t *testing.T) {
 
 func TestStrSetAdds(t *testing.T) {
 	s := set.NewStrSet("hello", "zoo")
-	if s.Len() != 2 {
-		t.Fatal(s)
+	if err := s.Adds("hello", "foo", "bar"); err != nil {
+		t.Fatal(err)
 	}
-	s.Adds("hello", "foo", "bar")
 	if s.Len() != 4 {
 		t.Fatal(s)
 	}
 	s = &set.StrSet{}
-	s.Adds("hello", "foo")
+	if err := s.Adds("hello", "foo"); err != nil {
+		t.Fatal(err)
+	}
 	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	s = nil
+	if err := s.Adds("hello", "foo"); err == nil {
 		t.Fatal(s)
 	}
 }

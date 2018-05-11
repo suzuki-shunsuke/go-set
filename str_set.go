@@ -77,13 +77,17 @@ func (set *StrSet) Add(k string) error {
 }
 
 // Adds adds strings to the set.
-func (set *StrSet) Adds(args ...string) {
+func (set *StrSet) Adds(args ...string) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
 	for _, k := range args {
 		set.data[k] = struct{}{}
 	}
+	return nil
 }
 
 // AddSet adds a StrSet to the set.
