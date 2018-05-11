@@ -19,6 +19,7 @@ func NewStrSet(args ...string) *StrSet {
 }
 
 // Len returns the number of elements of the set.
+// If set is nil, 0 is returned.
 func (set *StrSet) Len() int {
 	if set == nil {
 		return 0
@@ -27,6 +28,7 @@ func (set *StrSet) Len() int {
 }
 
 // Has returns whether a given string is included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) Has(k string) bool {
 	if set == nil {
 		return false
@@ -39,6 +41,7 @@ func (set *StrSet) Has(k string) bool {
 }
 
 // HasAll returns whether all given strings are included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) HasAll(args ...string) bool {
 	for _, a := range args {
 		if !set.Has(a) {
@@ -49,6 +52,7 @@ func (set *StrSet) HasAll(args ...string) bool {
 }
 
 // HasAny returns whether some given strings are included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) HasAny(args ...string) bool {
 	for _, a := range args {
 		if set.Has(a) {
@@ -105,6 +109,7 @@ func (set *StrSet) AddSets(others ...*StrSet) {
 }
 
 // Clone returns a new StrSet which has same elements.
+// If set is nil, new empty set is returned.
 func (set *StrSet) Clone() *StrSet {
 	if set == nil {
 		return NewStrSet()
@@ -120,6 +125,7 @@ func (set *StrSet) Clone() *StrSet {
 }
 
 // Remove removes a string from the set.
+// If set is nil, nothing happens.
 func (set *StrSet) Remove(k string) {
 	if set == nil {
 		return
@@ -128,6 +134,7 @@ func (set *StrSet) Remove(k string) {
 }
 
 // Removes removes strings from the set.
+// If set is nil, nothing happens.
 func (set *StrSet) Removes(args ...string) {
 	if set == nil {
 		return
@@ -138,6 +145,7 @@ func (set *StrSet) Removes(args ...string) {
 }
 
 // Clear removes all elements.
+// If set is nil, nothing happens.
 func (set *StrSet) Clear() {
 	if set == nil {
 		return
