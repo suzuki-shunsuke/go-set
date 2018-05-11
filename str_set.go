@@ -110,7 +110,11 @@ func (set *StrSet) AddSet(other *StrSet) error {
 }
 
 // AddSets adds StrSets to the set.
-func (set *StrSet) AddSets(others ...*StrSet) {
+// An error is returned when set is nil.
+func (set *StrSet) AddSets(others ...*StrSet) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
@@ -122,6 +126,7 @@ func (set *StrSet) AddSets(others ...*StrSet) {
 			set.data[k] = struct{}{}
 		}
 	}
+	return nil
 }
 
 // Clone returns a new StrSet which has same elements.

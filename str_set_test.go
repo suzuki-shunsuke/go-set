@@ -140,7 +140,9 @@ func TestStrSetAddSets(t *testing.T) {
 	s := &set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
 	var s3 *set.StrSet
-	s.AddSets(s2, s3)
+	if err := s.AddSets(s2, s3); err != nil {
+		t.Fatal(err)
+	}
 	if s.Len() != 2 {
 		t.Fatal(s)
 	}
@@ -149,6 +151,10 @@ func TestStrSetAddSets(t *testing.T) {
 	}
 	if s3 != nil {
 		t.Fatal(s3)
+	}
+	s = nil
+	if err := s.AddSets(s2); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 
