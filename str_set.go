@@ -2,6 +2,7 @@ package set
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // StrSet represents a string set.
@@ -19,6 +20,7 @@ func NewStrSet(args ...string) *StrSet {
 }
 
 // Len returns the number of elements of the set.
+// If set is nil, 0 is returned.
 func (set *StrSet) Len() int {
 	if set == nil {
 		return 0
@@ -27,6 +29,7 @@ func (set *StrSet) Len() int {
 }
 
 // Has returns whether a given string is included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) Has(k string) bool {
 	if set == nil {
 		return false
@@ -39,6 +42,7 @@ func (set *StrSet) Has(k string) bool {
 }
 
 // HasAll returns whether all given strings are included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) HasAll(args ...string) bool {
 	for _, a := range args {
 		if !set.Has(a) {
@@ -49,6 +53,7 @@ func (set *StrSet) HasAll(args ...string) bool {
 }
 
 // HasAny returns whether some given strings are included in the set.
+// If set is nil, false is returned.
 func (set *StrSet) HasAny(args ...string) bool {
 	for _, a := range args {
 		if set.Has(a) {
@@ -59,27 +64,41 @@ func (set *StrSet) HasAny(args ...string) bool {
 }
 
 // Add adds a string to the set.
-func (set *StrSet) Add(k string) {
+// An error is returned when set is nil.
+func (set *StrSet) Add(k string) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
 	set.data[k] = struct{}{}
+	return nil
 }
 
 // Adds adds strings to the set.
-func (set *StrSet) Adds(args ...string) {
+// An error is returned when set is nil.
+func (set *StrSet) Adds(args ...string) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
 	for _, k := range args {
 		set.data[k] = struct{}{}
 	}
+	return nil
 }
 
 // AddSet adds a StrSet to the set.
-func (set *StrSet) AddSet(other *StrSet) {
+// An error is returned when set is nil.
+func (set *StrSet) AddSet(other *StrSet) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if other == nil {
-		return
+		return nil
 	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
@@ -87,10 +106,15 @@ func (set *StrSet) AddSet(other *StrSet) {
 	for k := range other.data {
 		set.data[k] = struct{}{}
 	}
+	return nil
 }
 
 // AddSets adds StrSets to the set.
-func (set *StrSet) AddSets(others ...*StrSet) {
+// An error is returned when set is nil.
+func (set *StrSet) AddSets(others ...*StrSet) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
@@ -102,9 +126,11 @@ func (set *StrSet) AddSets(others ...*StrSet) {
 			set.data[k] = struct{}{}
 		}
 	}
+	return nil
 }
 
 // Clone returns a new StrSet which has same elements.
+// If set is nil, new empty set is returned.
 func (set *StrSet) Clone() *StrSet {
 	if set == nil {
 		return NewStrSet()
@@ -120,6 +146,7 @@ func (set *StrSet) Clone() *StrSet {
 }
 
 // Remove removes a string from the set.
+// If set is nil, nothing happens.
 func (set *StrSet) Remove(k string) {
 	if set == nil {
 		return
@@ -128,6 +155,7 @@ func (set *StrSet) Remove(k string) {
 }
 
 // Removes removes strings from the set.
+// If set is nil, nothing happens.
 func (set *StrSet) Removes(args ...string) {
 	if set == nil {
 		return
@@ -138,6 +166,7 @@ func (set *StrSet) Removes(args ...string) {
 }
 
 // Clear removes all elements.
+// If set is nil, nothing happens.
 func (set *StrSet) Clear() {
 	if set == nil {
 		return
@@ -151,10 +180,13 @@ func (set *StrSet) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON is the implementation of the json.Unmarshaler interface.
+// An error is returned when set is nil.
 func (set *StrSet) UnmarshalJSON(b []byte) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	arr := []string{}
-	err := json.Unmarshal(b, &arr)
-	if err != nil {
+	if err := json.Unmarshal(b, &arr); err != nil {
 		return err
 	}
 	if set.data == nil {
@@ -167,13 +199,14 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 }
 
 // ToList returns a list composed of elements of the set.
+// If set is nil, an empty list is returned.
 func (set *StrSet) ToList() []string {
 	if set == nil {
-		return nil
+		return []string{}
 	}
 	size := len(set.data)
 	if size == 0 {
-		return nil
+		return []string{}
 	}
 	arr := make([]string, size)
 	i := 0
@@ -187,9 +220,10 @@ func (set *StrSet) ToList() []string {
 // ToMap returns a map whose keys are elements of the set.
 // If the parameter 'deep' is true, this method returns a new map.
 // If the parameter 'deep' is false, this method returns the map which the set has internally.
+// If set is nil, an empty map is returned.
 func (set *StrSet) ToMap(deep bool) map[string]struct{} {
-	if set == nil {
-		return nil
+	if set == nil || set.data == nil {
+		return map[string]struct{}{}
 	}
 	if !deep {
 		return set.data

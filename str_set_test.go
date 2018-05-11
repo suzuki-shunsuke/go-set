@@ -2,6 +2,7 @@ package set_test
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 
 	"github.com/suzuki-shunsuke/go-set"
@@ -75,45 +76,81 @@ func TestStrSetHasAny(t *testing.T) {
 
 func TestStrSetAdd(t *testing.T) {
 	s := &set.StrSet{}
-	s.Add("hello")
-	if s.Len() != 1 {
+	if err := s.Add("hello"); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(s.ToList(), []string{"hello"}) {
 		t.Fatal(s)
+	}
+	s = nil
+	if err := s.Add("hello"); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 
 func TestStrSetAdds(t *testing.T) {
 	s := set.NewStrSet("hello", "zoo")
-	if s.Len() != 2 {
+	if err := s.Adds("hello", "foo", "bar"); err != nil {
+		t.Fatal(err)
+	}
+	exp := map[string]struct{}{
+		"hello": {},
+		"zoo":   {},
+		"foo":   {},
+		"bar":   {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	s.Adds("hello", "foo", "bar")
 	if s.Len() != 4 {
 		t.Fatal(s)
 	}
 	s = &set.StrSet{}
-	s.Adds("hello", "foo")
-	if s.Len() != 2 {
+	if err := s.Adds("hello", "foo"); err != nil {
+		t.Fatal(err)
+	}
+	exp = map[string]struct{}{
+		"hello": {},
+		"foo":   {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
+	}
+	s = nil
+	if err := s.Adds("hello", "foo"); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 
 func TestStrSetAddSet(t *testing.T) {
 	s := &set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
-	s.AddSet(s2)
-	if s.Len() != 2 {
+	if err := s.AddSet(s2); err != nil {
+		t.Fatal(err)
+	}
+	exp := map[string]struct{}{
+		"a": {},
+		"b": {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if s2.Len() != 2 {
+	if !reflect.DeepEqual(s2.ToMap(false), exp) {
 		t.Fatal(s2)
 	}
 	var s3 *set.StrSet
-	s.AddSet(s3)
-	if s.Len() != 2 {
+	if err := s.AddSet(s3); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	if s3 != nil {
 		t.Fatal(s3)
+	}
+	s = nil
+	if err := s.AddSet(s3); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 
@@ -121,15 +158,25 @@ func TestStrSetAddSets(t *testing.T) {
 	s := &set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
 	var s3 *set.StrSet
-	s.AddSets(s2, s3)
-	if s.Len() != 2 {
+	if err := s.AddSets(s2, s3); err != nil {
+		t.Fatal(err)
+	}
+	exp := map[string]struct{}{
+		"a": {},
+		"b": {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if s2.Len() != 2 {
+	if !reflect.DeepEqual(s2.ToMap(false), exp) {
 		t.Fatal(s2)
 	}
 	if s3 != nil {
 		t.Fatal(s3)
+	}
+	s = nil
+	if err := s.AddSets(s2); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 
@@ -141,7 +188,8 @@ func TestStrSetClone(t *testing.T) {
 	}
 	s.Add("foo")
 	s2 = s.Clone()
-	if s2.Len() != 1 {
+	exp := []string{"foo"}
+	if !reflect.DeepEqual(s2.ToList(), exp) {
 		t.Fatal(s2)
 	}
 	s = nil
@@ -153,11 +201,9 @@ func TestStrSetClone(t *testing.T) {
 
 func TestStrSetRemove(t *testing.T) {
 	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
 	s.Remove("foo")
-	if s.Len() != 1 {
+	exp := []string{"hello"}
+	if !reflect.DeepEqual(s.ToList(), exp) {
 		t.Fatal(s)
 	}
 	s.Remove("hello")
@@ -173,11 +219,9 @@ func TestStrSetRemove(t *testing.T) {
 
 func TestStrSetRemoves(t *testing.T) {
 	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
 	s.Removes("foo", "bar")
-	if s.Len() != 1 {
+	exp := []string{"hello"}
+	if !reflect.DeepEqual(s.ToList(), exp) {
 		t.Fatal(s)
 	}
 	s.Removes("hello", "foo")
@@ -193,7 +237,11 @@ func TestStrSetRemoves(t *testing.T) {
 
 func TestStrSetClear(t *testing.T) {
 	s := set.NewStrSet("hello", "bar")
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"hello": {},
+		"bar":   {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	s.Clear()
@@ -221,7 +269,7 @@ func TestStrSetMarshalJSON(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(b) != "null" {
+	if string(b) != "[]" {
 		t.Fatal(string(b))
 	}
 }
@@ -231,7 +279,11 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"foo": {},
+		"bar": {},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
@@ -241,12 +293,18 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
 		t.Fatal(err)
 	}
+	s = nil
+	if err := s.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
+		t.Fatal("set is nil", s)
+	}
 }
 
 func TestStrSetToList(t *testing.T) {
 	s := set.NewStrSet("hello", "foo")
 	arr := s.ToList()
-	if len(arr) != 2 {
+	exp1 := []string{"hello", "foo"}
+	exp2 := []string{"foo", "hello"}
+	if !reflect.DeepEqual(arr, exp1) && !reflect.DeepEqual(arr, exp2) {
 		t.Fatal(arr)
 	}
 	if size := len(set.NewStrSet().ToList()); size != 0 {
@@ -263,17 +321,21 @@ func TestStrSetToList(t *testing.T) {
 func TestStrSetToMap(t *testing.T) {
 	s := set.NewStrSet("hello", "foo")
 	m := s.ToMap(false)
-	if len(m) != 2 {
+	exp := map[string]struct{}{
+		"foo":   {},
+		"hello": {},
+	}
+	if !reflect.DeepEqual(m, exp) {
 		t.Fatal(m)
 	}
 	delete(m, "hello")
-	if s.Len() != 1 {
+	if !reflect.DeepEqual(s.ToList(), []string{"foo"}) {
 		t.Fatal(s)
 	}
 	s = set.NewStrSet("hello", "foo")
 	m = s.ToMap(true)
 	delete(m, "hello")
-	if s.Len() != 2 {
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 

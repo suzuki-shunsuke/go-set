@@ -10,34 +10,6 @@
 
 set data structure for golang.
 
-## Example
-
-```golang
-import (
-	"fmt"
-	"github.com/suzuki-shunsuke/go-set"
-)
-
-func main() {
-	s := set.NewStrSet("a", "b")
-	fmt.Println(s.Len()) // 2
-	fmt.Println(s.Has("a")) // true
-	fmt.Println(s.HasAll("a", "b")) // true
-	fmt.Println(s.HasAny("a", "c")) // true
-	s.Add("c")
-	s.Adds("d", "e")
-	s.Remove("a")
-	s.Removes("b", "c")
-	fmt.Println(s.ToList()) // []string{"d", "e"}
-	// Iteration
-	for k, _ := range s.ToMap(false) {
-		fmt.Println(k)
-	}
-	s.Clear()
-	fmt.Println(s.Len()) // 0
-}
-```
-
 ## Other libraries
 
 * https://github.com/avelino/awesome-go#data-structures
