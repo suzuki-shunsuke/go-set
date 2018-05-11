@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.4"></a>
+## [2.3.4](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.3...v2.3.4) (2018-05-11)
+
+
+### Bug Fixes
+
+* let Add method return error when set is nil ([17d22ef](https://github.com/suzuki-shunsuke/go-set/commit/17d22ef))
+* let Adds method return error when set is nil ([d94d6e5](https://github.com/suzuki-shunsuke/go-set/commit/d94d6e5))
+* let AddSet method return error when set is nil ([b054856](https://github.com/suzuki-shunsuke/go-set/commit/b054856))
+* let AddSets method return error when set is nil ([e741fc0](https://github.com/suzuki-shunsuke/go-set/commit/e741fc0))
+* let UnmarshalJSON return error when set is nil ([eb6e986](https://github.com/suzuki-shunsuke/go-set/commit/eb6e986))
+* return empty list or map instead of nil ([c41c600](https://github.com/suzuki-shunsuke/go-set/commit/c41c600))
+
+
+
 <a name="2.3.3"></a>
 ## [2.3.3](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.2...v2.3.3) (2018-05-11)
 
