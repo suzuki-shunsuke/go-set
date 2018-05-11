@@ -266,6 +266,10 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
 		t.Fatal(err)
 	}
+	s = nil
+	if err := s.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
+		t.Fatal("set is nil", s)
+	}
 }
 
 func TestStrSetToList(t *testing.T) {

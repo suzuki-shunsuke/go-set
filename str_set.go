@@ -180,10 +180,13 @@ func (set *StrSet) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON is the implementation of the json.Unmarshaler interface.
+// An error is returned when set is nil.
 func (set *StrSet) UnmarshalJSON(b []byte) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	arr := []string{}
-	err := json.Unmarshal(b, &arr)
-	if err != nil {
+	if err := json.Unmarshal(b, &arr); err != nil {
 		return err
 	}
 	if set.data == nil {
