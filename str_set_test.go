@@ -94,10 +94,10 @@ func TestStrSetAdds(t *testing.T) {
 		t.Fatal(err)
 	}
 	exp := map[string]struct{}{
-		"hello": struct{}{},
-		"zoo":   struct{}{},
-		"foo":   struct{}{},
-		"bar":   struct{}{},
+		"hello": {},
+		"zoo":   {},
+		"foo":   {},
+		"bar":   {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -110,8 +110,8 @@ func TestStrSetAdds(t *testing.T) {
 		t.Fatal(err)
 	}
 	exp = map[string]struct{}{
-		"hello": struct{}{},
-		"foo":   struct{}{},
+		"hello": {},
+		"foo":   {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -129,8 +129,8 @@ func TestStrSetAddSet(t *testing.T) {
 		t.Fatal(err)
 	}
 	exp := map[string]struct{}{
-		"a": struct{}{},
-		"b": struct{}{},
+		"a": {},
+		"b": {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -162,8 +162,8 @@ func TestStrSetAddSets(t *testing.T) {
 		t.Fatal(err)
 	}
 	exp := map[string]struct{}{
-		"a": struct{}{},
-		"b": struct{}{},
+		"a": {},
+		"b": {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -238,8 +238,8 @@ func TestStrSetRemoves(t *testing.T) {
 func TestStrSetClear(t *testing.T) {
 	s := set.NewStrSet("hello", "bar")
 	exp := map[string]struct{}{
-		"hello": struct{}{},
-		"bar":   struct{}{},
+		"hello": {},
+		"bar":   {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -280,8 +280,8 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 	exp := map[string]struct{}{
-		"foo": struct{}{},
-		"bar": struct{}{},
+		"foo": {},
+		"bar": {},
 	}
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
@@ -322,8 +322,8 @@ func TestStrSetToMap(t *testing.T) {
 	s := set.NewStrSet("hello", "foo")
 	m := s.ToMap(false)
 	exp := map[string]struct{}{
-		"foo":   struct{}{},
-		"hello": struct{}{},
+		"foo":   {},
+		"hello": {},
 	}
 	if !reflect.DeepEqual(m, exp) {
 		t.Fatal(m)
