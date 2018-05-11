@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.3"></a>
+## [2.3.3](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.2...v2.3.3) (2018-05-11)
+
+
+### Bug Fixes
+
+* fix nil check in methods ([#13](https://github.com/suzuki-shunsuke/go-set/issues/13)) ([733cdfc](https://github.com/suzuki-shunsuke/go-set/commit/733cdfc))
+
+
+
 <a name="2.3.2"></a>
 ## [2.3.2](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.1...v2.3.2) (2018-04-16)
 

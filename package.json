@@ -1,6 +1,6 @@
 {
   "name": "go-set",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "scripts": {
     "release": "standard-version",
     "commitmsg": "commitlint -e $GIT_PARAMS",
