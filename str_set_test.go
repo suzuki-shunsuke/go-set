@@ -83,7 +83,7 @@ func TestStrSetAdd(t *testing.T) {
 	}
 	s = nil
 	if err := s.Add("hello"); err == nil {
-		t.Fatal(s)
+		t.Fatal("set is nil: ", s)
 	}
 }
 
@@ -104,14 +104,16 @@ func TestStrSetAdds(t *testing.T) {
 	}
 	s = nil
 	if err := s.Adds("hello", "foo"); err == nil {
-		t.Fatal(s)
+		t.Fatal("set is nil: ", s)
 	}
 }
 
 func TestStrSetAddSet(t *testing.T) {
 	s := &set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
-	s.AddSet(s2)
+	if err := s.AddSet(s2); err != nil {
+		t.Fatal(err)
+	}
 	if s.Len() != 2 {
 		t.Fatal(s)
 	}
@@ -119,12 +121,18 @@ func TestStrSetAddSet(t *testing.T) {
 		t.Fatal(s2)
 	}
 	var s3 *set.StrSet
-	s.AddSet(s3)
+	if err := s.AddSet(s3); err != nil {
+		t.Fatal(err)
+	}
 	if s.Len() != 2 {
 		t.Fatal(s)
 	}
 	if s3 != nil {
 		t.Fatal(s3)
+	}
+	s = nil
+	if err := s.AddSet(s3); err == nil {
+		t.Fatal("set is nil: ", s)
 	}
 }
 

@@ -77,6 +77,7 @@ func (set *StrSet) Add(k string) error {
 }
 
 // Adds adds strings to the set.
+// An error is returned when set is nil.
 func (set *StrSet) Adds(args ...string) error {
 	if set == nil {
 		return fmt.Errorf("set is nil")
@@ -91,9 +92,13 @@ func (set *StrSet) Adds(args ...string) error {
 }
 
 // AddSet adds a StrSet to the set.
-func (set *StrSet) AddSet(other *StrSet) {
+// An error is returned when set is nil.
+func (set *StrSet) AddSet(other *StrSet) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if other == nil {
-		return
+		return nil
 	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
@@ -101,6 +106,7 @@ func (set *StrSet) AddSet(other *StrSet) {
 	for k := range other.data {
 		set.data[k] = struct{}{}
 	}
+	return nil
 }
 
 // AddSets adds StrSets to the set.
