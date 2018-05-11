@@ -2,6 +2,7 @@ package set_test
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 
 	"github.com/suzuki-shunsuke/go-set"
@@ -78,7 +79,7 @@ func TestStrSetAdd(t *testing.T) {
 	if err := s.Add("hello"); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 1 {
+	if !reflect.DeepEqual(s.ToList(), []string{"hello"}) {
 		t.Fatal(s)
 	}
 	s = nil
@@ -92,6 +93,15 @@ func TestStrSetAdds(t *testing.T) {
 	if err := s.Adds("hello", "foo", "bar"); err != nil {
 		t.Fatal(err)
 	}
+	exp := map[string]struct{}{
+		"hello": struct{}{},
+		"zoo":   struct{}{},
+		"foo":   struct{}{},
+		"bar":   struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
+		t.Fatal(s)
+	}
 	if s.Len() != 4 {
 		t.Fatal(s)
 	}
@@ -99,7 +109,11 @@ func TestStrSetAdds(t *testing.T) {
 	if err := s.Adds("hello", "foo"); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	exp = map[string]struct{}{
+		"hello": struct{}{},
+		"foo":   struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	s = nil
@@ -114,17 +128,21 @@ func TestStrSetAddSet(t *testing.T) {
 	if err := s.AddSet(s2); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"a": struct{}{},
+		"b": struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if s2.Len() != 2 {
+	if !reflect.DeepEqual(s2.ToMap(false), exp) {
 		t.Fatal(s2)
 	}
 	var s3 *set.StrSet
 	if err := s.AddSet(s3); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	if s3 != nil {
@@ -143,10 +161,14 @@ func TestStrSetAddSets(t *testing.T) {
 	if err := s.AddSets(s2, s3); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"a": struct{}{},
+		"b": struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if s2.Len() != 2 {
+	if !reflect.DeepEqual(s2.ToMap(false), exp) {
 		t.Fatal(s2)
 	}
 	if s3 != nil {
@@ -166,7 +188,8 @@ func TestStrSetClone(t *testing.T) {
 	}
 	s.Add("foo")
 	s2 = s.Clone()
-	if s2.Len() != 1 {
+	exp := []string{"foo"}
+	if !reflect.DeepEqual(s2.ToList(), exp) {
 		t.Fatal(s2)
 	}
 	s = nil
@@ -178,11 +201,9 @@ func TestStrSetClone(t *testing.T) {
 
 func TestStrSetRemove(t *testing.T) {
 	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
 	s.Remove("foo")
-	if s.Len() != 1 {
+	exp := []string{"hello"}
+	if !reflect.DeepEqual(s.ToList(), exp) {
 		t.Fatal(s)
 	}
 	s.Remove("hello")
@@ -198,11 +219,9 @@ func TestStrSetRemove(t *testing.T) {
 
 func TestStrSetRemoves(t *testing.T) {
 	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
 	s.Removes("foo", "bar")
-	if s.Len() != 1 {
+	exp := []string{"hello"}
+	if !reflect.DeepEqual(s.ToList(), exp) {
 		t.Fatal(s)
 	}
 	s.Removes("hello", "foo")
@@ -218,7 +237,11 @@ func TestStrSetRemoves(t *testing.T) {
 
 func TestStrSetClear(t *testing.T) {
 	s := set.NewStrSet("hello", "bar")
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"hello": struct{}{},
+		"bar":   struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	s.Clear()
@@ -256,7 +279,11 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 2 {
+	exp := map[string]struct{}{
+		"foo": struct{}{},
+		"bar": struct{}{},
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
@@ -275,7 +302,9 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 func TestStrSetToList(t *testing.T) {
 	s := set.NewStrSet("hello", "foo")
 	arr := s.ToList()
-	if len(arr) != 2 {
+	exp1 := []string{"hello", "foo"}
+	exp2 := []string{"foo", "hello"}
+	if !reflect.DeepEqual(arr, exp1) && !reflect.DeepEqual(arr, exp2) {
 		t.Fatal(arr)
 	}
 	if size := len(set.NewStrSet().ToList()); size != 0 {
@@ -292,17 +321,21 @@ func TestStrSetToList(t *testing.T) {
 func TestStrSetToMap(t *testing.T) {
 	s := set.NewStrSet("hello", "foo")
 	m := s.ToMap(false)
-	if len(m) != 2 {
+	exp := map[string]struct{}{
+		"foo":   struct{}{},
+		"hello": struct{}{},
+	}
+	if !reflect.DeepEqual(m, exp) {
 		t.Fatal(m)
 	}
 	delete(m, "hello")
-	if s.Len() != 1 {
+	if !reflect.DeepEqual(s.ToList(), []string{"foo"}) {
 		t.Fatal(s)
 	}
 	s = set.NewStrSet("hello", "foo")
 	m = s.ToMap(true)
 	delete(m, "hello")
-	if s.Len() != 2 {
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
 
