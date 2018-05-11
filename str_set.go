@@ -20,11 +20,17 @@ func NewStrSet(args ...string) *StrSet {
 
 // Len returns the number of elements of the set.
 func (set *StrSet) Len() int {
+	if set == nil {
+		return 0
+	}
 	return len(set.data)
 }
 
 // Has returns whether a given string is included in the set.
 func (set *StrSet) Has(k string) bool {
+	if set == nil {
+		return false
+	}
 	if set.data == nil {
 		return false
 	}
@@ -100,6 +106,9 @@ func (set *StrSet) AddSets(others ...*StrSet) {
 
 // Clone returns a new StrSet which has same elements.
 func (set *StrSet) Clone() *StrSet {
+	if set == nil {
+		return NewStrSet()
+	}
 	if set.data == nil {
 		return &StrSet{}
 	}
@@ -112,11 +121,17 @@ func (set *StrSet) Clone() *StrSet {
 
 // Remove removes a string from the set.
 func (set *StrSet) Remove(k string) {
+	if set == nil {
+		return
+	}
 	delete(set.data, k)
 }
 
 // Removes removes strings from the set.
 func (set *StrSet) Removes(args ...string) {
+	if set == nil {
+		return
+	}
 	for _, k := range args {
 		delete(set.data, k)
 	}
@@ -124,6 +139,9 @@ func (set *StrSet) Removes(args ...string) {
 
 // Clear removes all elements.
 func (set *StrSet) Clear() {
+	if set == nil {
+		return
+	}
 	set.data = map[string]struct{}{}
 }
 
@@ -150,6 +168,9 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 
 // ToList returns a list composed of elements of the set.
 func (set *StrSet) ToList() []string {
+	if set == nil {
+		return nil
+	}
 	size := len(set.data)
 	if size == 0 {
 		return nil
@@ -167,6 +188,9 @@ func (set *StrSet) ToList() []string {
 // If the parameter 'deep' is true, this method returns a new map.
 // If the parameter 'deep' is false, this method returns the map which the set has internally.
 func (set *StrSet) ToMap(deep bool) map[string]struct{} {
+	if set == nil {
+		return nil
+	}
 	if !deep {
 		return set.data
 	}
