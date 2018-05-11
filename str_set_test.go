@@ -7,6 +7,17 @@ import (
 	"github.com/suzuki-shunsuke/go-set"
 )
 
+func TestStrSetLen(t *testing.T) {
+	s := set.NewStrSet("foo", "bar")
+	if s.Len() != 2 {
+		t.Fatalf(`s.Len() = %d, wanted 2`, s.Len())
+	}
+	s = nil
+	if s.Len() != 0 {
+		t.Fatalf(`s.Len() = %d, wanted 0`, s.Len())
+	}
+}
+
 func TestStrSetHas(t *testing.T) {
 	s := set.NewStrSet()
 	k := "hello"
@@ -21,105 +32,9 @@ func TestStrSetHas(t *testing.T) {
 	if s.Has(k) {
 		t.Fatal(s)
 	}
-}
-
-func TestStrSetAdd(t *testing.T) {
-	s := &set.StrSet{}
-	s.Add("hello")
-	if s.Len() != 1 {
+	s = nil
+	if s.Has(k) {
 		t.Fatal(s)
-	}
-}
-
-func TestStrSetAdds(t *testing.T) {
-	s := set.NewStrSet("hello", "zoo")
-	if s.Len() != 2 {
-		t.Fatal(s)
-	}
-	s.Adds("hello", "foo", "bar")
-	if s.Len() != 4 {
-		t.Fatal(s)
-	}
-	s = &set.StrSet{}
-	s.Adds("hello", "foo")
-	if s.Len() != 2 {
-		t.Fatal(s)
-	}
-}
-
-func TestStrSetRemove(t *testing.T) {
-	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
-	s.Remove("foo")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
-	s.Remove("hello")
-	if s.Len() != 0 {
-		t.Fatal(s)
-	}
-}
-
-func TestStrSetRemoves(t *testing.T) {
-	s := set.NewStrSet("hello")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
-	s.Removes("foo", "bar")
-	if s.Len() != 1 {
-		t.Fatal(s)
-	}
-	s.Removes("hello", "foo")
-	if s.Len() != 0 {
-		t.Fatal(s)
-	}
-}
-
-func TestStrSetClear(t *testing.T) {
-	s := set.NewStrSet("hello", "bar")
-	if s.Len() != 2 {
-		t.Fatal(s)
-	}
-	s.Clear()
-	if s.Len() != 0 {
-		t.Fatal(s)
-	}
-}
-
-func TestStrSetMarshalJSON(t *testing.T) {
-	s := set.NewStrSet("hello")
-	b, err := s.MarshalJSON()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(b) != `["hello"]` {
-		t.Fatal(string(b))
-	}
-}
-
-func TestStrSetUnmarshalJSON(t *testing.T) {
-	s := set.NewStrSet()
-	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
-		t.Fatal(err)
-	}
-	if s.Len() != 2 {
-		t.Fatal(s)
-	}
-	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
-		t.Fatal("Unmarshal should fail")
-	}
-	s = &set.StrSet{}
-	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
-		t.Fatal(err)
-	}
-}
-
-func TestStrSetLen(t *testing.T) {
-	s := set.NewStrSet("foo", "bar")
-	if s.Len() != 2 {
-		t.Fatalf(`s.Len() = %d, wanted 2`, s.Len())
 	}
 }
 
@@ -158,33 +73,25 @@ func TestStrSetHasAny(t *testing.T) {
 	}
 }
 
-func TestStrSetToList(t *testing.T) {
-	s := set.NewStrSet("hello", "foo")
-	arr := s.ToList()
-	if len(arr) != 2 {
-		t.Fatal(arr)
-	}
-	if size := len(set.NewStrSet().ToList()); size != 0 {
-		t.Fatalf(`len(set.NewStrSet().ToList()) = %d, wanted 0`, size)
-	}
-}
-
-func TestStrSetToMap(t *testing.T) {
-	s := set.NewStrSet("hello", "foo")
-	if s.Len() != 2 {
-		t.Fatal(s)
-	}
-	m := s.ToMap(false)
-	if len(m) != 2 {
-		t.Fatal(m)
-	}
-	delete(m, "hello")
+func TestStrSetAdd(t *testing.T) {
+	s := &set.StrSet{}
+	s.Add("hello")
 	if s.Len() != 1 {
 		t.Fatal(s)
 	}
-	s = set.NewStrSet("hello", "foo")
-	m = s.ToMap(true)
-	delete(m, "hello")
+}
+
+func TestStrSetAdds(t *testing.T) {
+	s := set.NewStrSet("hello", "zoo")
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	s.Adds("hello", "foo", "bar")
+	if s.Len() != 4 {
+		t.Fatal(s)
+	}
+	s = &set.StrSet{}
+	s.Adds("hello", "foo")
 	if s.Len() != 2 {
 		t.Fatal(s)
 	}
@@ -236,5 +143,147 @@ func TestStrSetClone(t *testing.T) {
 	s2 = s.Clone()
 	if s2.Len() != 1 {
 		t.Fatal(s2)
+	}
+	s = nil
+	s2 = s.Clone()
+	if s2.Len() != 0 {
+		t.Fatal(s2)
+	}
+}
+
+func TestStrSetRemove(t *testing.T) {
+	s := set.NewStrSet("hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Remove("foo")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Remove("hello")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+	s = nil
+	s.Remove("hello")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetRemoves(t *testing.T) {
+	s := set.NewStrSet("hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Removes("foo", "bar")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s.Removes("hello", "foo")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+	s = nil
+	s.Removes("hello", "foo")
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetClear(t *testing.T) {
+	s := set.NewStrSet("hello", "bar")
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	s.Clear()
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+	s = nil
+	s.Clear()
+	if s.Len() != 0 {
+		t.Fatal(s)
+	}
+}
+
+func TestStrSetMarshalJSON(t *testing.T) {
+	s := set.NewStrSet("hello")
+	b, err := s.MarshalJSON()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(b) != `["hello"]` {
+		t.Fatal(string(b))
+	}
+	s = nil
+	b, err = s.MarshalJSON()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(b) != "null" {
+		t.Fatal(string(b))
+	}
+}
+
+func TestStrSetUnmarshalJSON(t *testing.T) {
+	s := set.NewStrSet()
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
+		t.Fatal(err)
+	}
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
+		t.Fatal("Unmarshal should fail")
+	}
+	s = &set.StrSet{}
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestStrSetToList(t *testing.T) {
+	s := set.NewStrSet("hello", "foo")
+	arr := s.ToList()
+	if len(arr) != 2 {
+		t.Fatal(arr)
+	}
+	if size := len(set.NewStrSet().ToList()); size != 0 {
+		t.Fatalf(`len(set.NewStrSet().ToList()) = %d, wanted 0`, size)
+	}
+
+	s = nil
+	arr = s.ToList()
+	if len(arr) != 0 {
+		t.Fatal(arr)
+	}
+}
+
+func TestStrSetToMap(t *testing.T) {
+	s := set.NewStrSet("hello", "foo")
+	m := s.ToMap(false)
+	if len(m) != 2 {
+		t.Fatal(m)
+	}
+	delete(m, "hello")
+	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s = set.NewStrSet("hello", "foo")
+	m = s.ToMap(true)
+	delete(m, "hello")
+	if s.Len() != 2 {
+		t.Fatal(s)
+	}
+
+	s = nil
+	m = s.ToMap(false)
+	if len(m) != 0 {
+		t.Fatal(m)
+	}
+	m = s.ToMap(true)
+	if len(m) != 0 {
+		t.Fatal(m)
 	}
 }
