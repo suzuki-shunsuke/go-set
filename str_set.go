@@ -199,13 +199,14 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 }
 
 // ToList returns a list composed of elements of the set.
+// If set is nil, an empty list is returned.
 func (set *StrSet) ToList() []string {
 	if set == nil {
-		return nil
+		return []string{}
 	}
 	size := len(set.data)
 	if size == 0 {
-		return nil
+		return []string{}
 	}
 	arr := make([]string, size)
 	i := 0
@@ -219,9 +220,10 @@ func (set *StrSet) ToList() []string {
 // ToMap returns a map whose keys are elements of the set.
 // If the parameter 'deep' is true, this method returns a new map.
 // If the parameter 'deep' is false, this method returns the map which the set has internally.
+// If set is nil, an empty map is returned.
 func (set *StrSet) ToMap(deep bool) map[string]struct{} {
-	if set == nil {
-		return nil
+	if set == nil || set.data == nil {
+		return map[string]struct{}{}
 	}
 	if !deep {
 		return set.data

@@ -246,7 +246,7 @@ func TestStrSetMarshalJSON(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if string(b) != "null" {
+	if string(b) != "[]" {
 		t.Fatal(string(b))
 	}
 }
