@@ -75,8 +75,14 @@ func TestStrSetHasAny(t *testing.T) {
 
 func TestStrSetAdd(t *testing.T) {
 	s := &set.StrSet{}
-	s.Add("hello")
+	if err := s.Add("hello"); err != nil {
+		t.Fatal(err)
+	}
 	if s.Len() != 1 {
+		t.Fatal(s)
+	}
+	s = nil
+	if err := s.Add("hello"); err == nil {
 		t.Fatal(s)
 	}
 }

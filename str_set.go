@@ -2,6 +2,7 @@ package set
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // StrSet represents a string set.
@@ -63,11 +64,16 @@ func (set *StrSet) HasAny(args ...string) bool {
 }
 
 // Add adds a string to the set.
-func (set *StrSet) Add(k string) {
+// An error is returned when set is nil.
+func (set *StrSet) Add(k string) error {
+	if set == nil {
+		return fmt.Errorf("set is nil")
+	}
 	if set.data == nil {
 		set.data = map[string]struct{}{}
 	}
 	set.data[k] = struct{}{}
+	return nil
 }
 
 // Adds adds strings to the set.
