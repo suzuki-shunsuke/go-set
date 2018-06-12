@@ -86,6 +86,10 @@ func TestStrSetAdd(t *testing.T) {
 	if err := s.Add("hello"); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
+	var s2 set.StrSet
+	if err := (&s2).Add("hello"); err == nil {
+		t.Fatal("set is nil: ", s)
+	}
 }
 
 func TestStrSetAdds(t *testing.T) {
@@ -296,6 +300,10 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	s = nil
 	if err := s.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
 		t.Fatal("set is nil", s)
+	}
+	s = &set.StrSet{}
+	if err := json.Unmarshal([]byte(`[]`), s); err != nil {
+		t.Fatal(err)
 	}
 }
 
