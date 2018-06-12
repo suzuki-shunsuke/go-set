@@ -12,7 +12,7 @@ func TestMapstructureDecodeHookFromListToStrSet(t *testing.T) {
 	input := []interface{}{"foo"}
 	decoder, err := mapstructure.NewDecoder(&mapstructure.DecoderConfig{
 		DecodeHook: set.MapstructureDecodeHookFromListToStrSet,
-		Result:     s,
+		Result:     &s,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -20,7 +20,7 @@ func TestMapstructureDecodeHookFromListToStrSet(t *testing.T) {
 	if err := decoder.Decode(input); err != nil {
 		t.Fatal(err)
 	}
-	if s.Len() != 1 {
+	if len(s) != 1 {
 		t.Fatal(s)
 	}
 
