@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.4...v3.0.0) (2018-06-12)
+
+
+### Code Refactoring
+
+* change StrSet structure ([11dc885](https://github.com/suzuki-shunsuke/go-set/commit/11dc885))
+
+
+### BREAKING CHANGES
+
+* StrSet's structure changes
+
+
+
 <a name="2.3.4"></a>
 ## [2.3.4](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.3...v2.3.4) (2018-05-11)
 
