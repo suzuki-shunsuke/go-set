@@ -8,17 +8,6 @@ import (
 	"github.com/suzuki-shunsuke/go-set"
 )
 
-func TestStrSetLen(t *testing.T) {
-	s := set.NewStrSet("foo", "bar")
-	if s.Len() != 2 {
-		t.Fatalf(`s.Len() = %d, wanted 2`, s.Len())
-	}
-	s = nil
-	if s.Len() != 0 {
-		t.Fatalf(`s.Len() = %d, wanted 0`, s.Len())
-	}
-}
-
 func TestStrSetHas(t *testing.T) {
 	s := set.NewStrSet()
 	k := "hello"
@@ -29,7 +18,7 @@ func TestStrSetHas(t *testing.T) {
 	if !s.Has(k) {
 		t.Fatal(s)
 	}
-	s = &set.StrSet{}
+	s = set.StrSet{}
 	if s.Has(k) {
 		t.Fatal(s)
 	}
@@ -75,7 +64,7 @@ func TestStrSetHasAny(t *testing.T) {
 }
 
 func TestStrSetAdd(t *testing.T) {
-	s := &set.StrSet{}
+	s := set.StrSet{}
 	if err := s.Add("hello"); err != nil {
 		t.Fatal(err)
 	}
@@ -87,7 +76,7 @@ func TestStrSetAdd(t *testing.T) {
 		t.Fatal("set is nil: ", s)
 	}
 	var s2 set.StrSet
-	if err := (&s2).Add("hello"); err == nil {
+	if err := s2.Add("hello"); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
 }
@@ -106,10 +95,10 @@ func TestStrSetAdds(t *testing.T) {
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if s.Len() != 4 {
+	if len(s) != 4 {
 		t.Fatal(s)
 	}
-	s = &set.StrSet{}
+	s = set.StrSet{}
 	if err := s.Adds("hello", "foo"); err != nil {
 		t.Fatal(err)
 	}
@@ -124,10 +113,13 @@ func TestStrSetAdds(t *testing.T) {
 	if err := s.Adds("hello", "foo"); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
+	if err := s.Adds(); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestStrSetAddSet(t *testing.T) {
-	s := &set.StrSet{}
+	s := set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
 	if err := s.AddSet(s2); err != nil {
 		t.Fatal(err)
@@ -142,7 +134,7 @@ func TestStrSetAddSet(t *testing.T) {
 	if !reflect.DeepEqual(s2.ToMap(false), exp) {
 		t.Fatal(s2)
 	}
-	var s3 *set.StrSet
+	var s3 set.StrSet
 	if err := s.AddSet(s3); err != nil {
 		t.Fatal(err)
 	}
@@ -153,15 +145,19 @@ func TestStrSetAddSet(t *testing.T) {
 		t.Fatal(s3)
 	}
 	s = nil
+	if err := s.AddSet(s3); err != nil {
+		t.Fatal(err)
+	}
+	s3 = set.NewStrSet("a")
 	if err := s.AddSet(s3); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
 }
 
 func TestStrSetAddSets(t *testing.T) {
-	s := &set.StrSet{}
+	s := set.StrSet{}
 	s2 := set.NewStrSet("a", "b")
-	var s3 *set.StrSet
+	var s3 set.StrSet
 	if err := s.AddSets(s2, s3); err != nil {
 		t.Fatal(err)
 	}
@@ -182,12 +178,15 @@ func TestStrSetAddSets(t *testing.T) {
 	if err := s.AddSets(s2); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
+	if err := s.AddSets(); err != nil {
+		t.Fatal(err)
+	}
 }
 
 func TestStrSetClone(t *testing.T) {
-	s := &set.StrSet{}
+	s := set.StrSet{}
 	s2 := s.Clone()
-	if s2.Len() != 0 {
+	if len(s2) != 0 {
 		t.Fatal(s2)
 	}
 	s.Add("foo")
@@ -198,7 +197,7 @@ func TestStrSetClone(t *testing.T) {
 	}
 	s = nil
 	s2 = s.Clone()
-	if s2.Len() != 0 {
+	if len(s2) != 0 {
 		t.Fatal(s2)
 	}
 }
@@ -211,12 +210,12 @@ func TestStrSetRemove(t *testing.T) {
 		t.Fatal(s)
 	}
 	s.Remove("hello")
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 	s = nil
 	s.Remove("hello")
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 }
@@ -229,12 +228,12 @@ func TestStrSetRemoves(t *testing.T) {
 		t.Fatal(s)
 	}
 	s.Removes("hello", "foo")
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 	s = nil
 	s.Removes("hello", "foo")
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 }
@@ -249,12 +248,12 @@ func TestStrSetClear(t *testing.T) {
 		t.Fatal(s)
 	}
 	s.Clear()
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 	s = nil
 	s.Clear()
-	if s.Len() != 0 {
+	if len(s) != 0 {
 		t.Fatal(s)
 	}
 }
@@ -280,7 +279,7 @@ func TestStrSetMarshalJSON(t *testing.T) {
 
 func TestStrSetUnmarshalJSON(t *testing.T) {
 	s := set.NewStrSet()
-	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), &s); err != nil {
 		t.Fatal(err)
 	}
 	exp := map[string]struct{}{
@@ -290,19 +289,19 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 	if !reflect.DeepEqual(s.ToMap(false), exp) {
 		t.Fatal(s)
 	}
-	if err := json.Unmarshal([]byte(`"foo"`), s); err == nil {
+	if err := json.Unmarshal([]byte(`"foo"`), &s); err == nil {
 		t.Fatal("Unmarshal should fail")
 	}
-	s = &set.StrSet{}
-	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), s); err != nil {
+	s = set.StrSet{}
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), &s); err != nil {
 		t.Fatal(err)
 	}
 	s = nil
 	if err := s.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
 		t.Fatal("set is nil", s)
 	}
-	s = &set.StrSet{}
-	if err := json.Unmarshal([]byte(`[]`), s); err != nil {
+	s = set.StrSet{}
+	if err := json.Unmarshal([]byte(`[]`), &s); err != nil {
 		t.Fatal(err)
 	}
 }
