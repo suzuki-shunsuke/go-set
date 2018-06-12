@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v3.0.0...v4.0.0) (2018-06-12)
+
+
+### Features
+
+* don't use the pointer ([d8459e5](https://github.com/suzuki-shunsuke/go-set/commit/d8459e5))
+
+
+### BREAKING CHANGES
+
+* * change API interface: *StrSet -> StrSet
+* remove StrSet.Len method: use len(StrSet)
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v2.3.4...v3.0.0) (2018-06-12)
 
