@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v5.0.0...v6.0.0) (2018-06-24)
+
+
+### Features
+
+* change receiver to pointer ([8df47c6](https://github.com/suzuki-shunsuke/go-set/commit/8df47c6))
+
+
+### BREAKING CHANGES
+
+* change receiver to pointer
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v4.0.0...v5.0.0) (2018-06-24)
 
