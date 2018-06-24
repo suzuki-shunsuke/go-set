@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v4.0.0...v5.0.0) (2018-06-24)
+
+
+### Bug Fixes
+
+* fix StrSet.UnmarshalJSON ([0cf8eac](https://github.com/suzuki-shunsuke/go-set/commit/0cf8eac))
+
+
+### BREAKING CHANGES
+
+* change StrSet.UnmarshalJSON's receiver to pointer
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/suzuki-shunsuke/go-set/compare/v3.0.0...v4.0.0) (2018-06-12)
 
