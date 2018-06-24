@@ -72,10 +72,13 @@ func TestStrSetAdd(t *testing.T) {
 		t.Fatal(s)
 	}
 	s = nil
-	if err := s.Add("hello"); err == nil {
-		t.Fatal("set is nil: ", s)
+	if err := s.Add("hello"); err != nil {
+		t.Fatal(err)
 	}
-	var s2 set.StrSet
+	if !reflect.DeepEqual(s.ToList(), []string{"hello"}) {
+		t.Fatal(s)
+	}
+	var s2 *set.StrSet
 	if err := s2.Add("hello"); err == nil {
 		t.Fatal("set is nil: ", s)
 	}
@@ -110,11 +113,18 @@ func TestStrSetAdds(t *testing.T) {
 		t.Fatal(s)
 	}
 	s = nil
-	if err := s.Adds("hello", "foo"); err == nil {
-		t.Fatal("set is nil: ", s)
+	if err := s.Adds("hello", "foo"); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
+		t.Fatal(s)
 	}
 	if err := s.Adds(); err != nil {
 		t.Fatal(err)
+	}
+	var s2 *set.StrSet
+	if err := s2.Adds("hello", "foo"); err == nil {
+		t.Fatal("set is nil", s2)
 	}
 }
 
@@ -149,8 +159,12 @@ func TestStrSetAddSet(t *testing.T) {
 		t.Fatal(err)
 	}
 	s3 = set.NewStrSet("a")
-	if err := s.AddSet(s3); err == nil {
-		t.Fatal("set is nil: ", s)
+	if err := s.AddSet(s3); err != nil {
+		t.Fatal(err)
+	}
+	var s4 *set.StrSet
+	if err := s4.AddSet(s3); err == nil {
+		t.Fatal("set is nil", s4)
 	}
 }
 
@@ -175,11 +189,18 @@ func TestStrSetAddSets(t *testing.T) {
 		t.Fatal(s3)
 	}
 	s = nil
-	if err := s.AddSets(s2); err == nil {
-		t.Fatal("set is nil: ", s)
+	if err := s.AddSets(s2); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(s2.ToMap(false), exp) {
+		t.Fatal(s2)
 	}
 	if err := s.AddSets(); err != nil {
 		t.Fatal(err)
+	}
+	var s4 *set.StrSet
+	if err := s4.AddSets(s2); err == nil {
+		t.Fatal("set is nil", s4)
 	}
 }
 

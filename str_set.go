@@ -48,59 +48,74 @@ func (set *StrSet) HasAny(args ...string) bool {
 
 // Add adds a string to the set.
 // An error is returned when set is nil.
-func (set StrSet) Add(k string) error {
+func (set *StrSet) Add(k string) error {
 	if set == nil {
 		return fmt.Errorf("set is nil")
 	}
-	set[k] = struct{}{}
+	if *set == nil {
+		*set = StrSet{}
+	}
+	(*set)[k] = struct{}{}
 	return nil
 }
 
 // Adds adds strings to the set.
 // An error is returned when set is nil.
-func (set StrSet) Adds(args ...string) error {
+func (set *StrSet) Adds(args ...string) error {
 	if len(args) == 0 {
 		return nil
 	}
 	if set == nil {
 		return fmt.Errorf("set is nil")
 	}
+	if *set == nil {
+		*set = StrSet{}
+	}
+	s := *set
 	for _, k := range args {
-		set[k] = struct{}{}
+		s[k] = struct{}{}
 	}
 	return nil
 }
 
 // AddSet adds a StrSet to the set.
 // An error is returned when set is nil.
-func (set StrSet) AddSet(other StrSet) error {
+func (set *StrSet) AddSet(other StrSet) error {
 	if len(other) == 0 {
 		return nil
 	}
 	if set == nil {
 		return fmt.Errorf("set is nil")
 	}
+	if *set == nil {
+		*set = StrSet{}
+	}
+	s := *set
 	for k := range other {
-		set[k] = struct{}{}
+		s[k] = struct{}{}
 	}
 	return nil
 }
 
 // AddSets adds StrSets to the set.
 // An error is returned when set is nil.
-func (set StrSet) AddSets(others ...StrSet) error {
+func (set *StrSet) AddSets(others ...StrSet) error {
 	if len(others) == 0 {
 		return nil
 	}
 	if set == nil {
 		return fmt.Errorf("set is nil")
 	}
+	if *set == nil {
+		*set = StrSet{}
+	}
+	s := *set
 	for _, other := range others {
 		if other == nil {
 			continue
 		}
 		for k := range other {
-			set[k] = struct{}{}
+			s[k] = struct{}{}
 		}
 	}
 	return nil
@@ -168,8 +183,9 @@ func (set *StrSet) UnmarshalJSON(b []byte) error {
 	if *set == nil {
 		*set = StrSet{}
 	}
+	s := *set
 	for _, k := range arr {
-		(*set)[k] = struct{}{}
+		s[k] = struct{}{}
 	}
 	return nil
 }
