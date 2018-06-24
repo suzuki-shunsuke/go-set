@@ -154,7 +154,7 @@ func (set StrSet) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is the implementation of the json.Unmarshaler interface.
 // An error is returned when set is nil.
-func (set StrSet) UnmarshalJSON(b []byte) error {
+func (set *StrSet) UnmarshalJSON(b []byte) error {
 	arr := []string{}
 	if err := json.Unmarshal(b, &arr); err != nil {
 		return err
@@ -165,8 +165,11 @@ func (set StrSet) UnmarshalJSON(b []byte) error {
 	if set == nil {
 		return fmt.Errorf("set is nil")
 	}
+	if *set == nil {
+		*set = StrSet{}
+	}
 	for _, k := range arr {
-		set[k] = struct{}{}
+		(*set)[k] = struct{}{}
 	}
 	return nil
 }

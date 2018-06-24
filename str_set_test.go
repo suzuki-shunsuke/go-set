@@ -297,12 +297,25 @@ func TestStrSetUnmarshalJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 	s = nil
-	if err := s.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
-		t.Fatal("set is nil", s)
+	if err := json.Unmarshal([]byte(`["foo", "bar", "foo"]`), &s); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(s.ToMap(false), exp) {
+		t.Fatal(s)
 	}
 	s = set.StrSet{}
 	if err := json.Unmarshal([]byte(`[]`), &s); err != nil {
 		t.Fatal(err)
+	}
+	a := struct {
+		Set set.StrSet `json:"set"`
+	}{}
+	if err := json.Unmarshal([]byte(`{"set": ["foo", "bar", "foo"]}`), &a); err != nil {
+		t.Fatal(err)
+	}
+	var s2 *set.StrSet = nil
+	if err := s2.UnmarshalJSON([]byte(`["foo", "bar", "foo"]`)); err == nil {
+		t.Fatal("set is nil", s2)
 	}
 }
 
