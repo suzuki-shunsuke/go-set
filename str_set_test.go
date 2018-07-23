@@ -80,7 +80,7 @@ func TestStrSetAdd(t *testing.T) {
 	}
 	var s2 *set.StrSet
 	if err := s2.Add("hello"); err == nil {
-		t.Fatal("set is nil: ", s)
+		t.Fatal("set is nil: ", s2)
 	}
 }
 
