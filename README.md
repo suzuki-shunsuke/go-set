@@ -1,7 +1,7 @@
 # go-set
 
 [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/suzuki-shunsuke/go-set)
-[![Build Status](https://travis-ci.org/suzuki-shunsuke/go-set.svg?branch=master)](https://travis-ci.org/suzuki-shunsuke/go-set)
+[![CircleCI](https://circleci.com/gh/suzuki-shunsuke/go-set.svg?style=svg)](https://circleci.com/gh/suzuki-shunsuke/go-set)
 [![codecov](https://codecov.io/gh/suzuki-shunsuke/go-set/branch/master/graph/badge.svg)](https://codecov.io/gh/suzuki-shunsuke/go-set)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suzuki-shunsuke/go-set)](https://goreportcard.com/report/github.com/suzuki-shunsuke/go-set)
 [![GitHub last commit](https://img.shields.io/github/last-commit/suzuki-shunsuke/go-set.svg)](https://github.com/suzuki-shunsuke/go-set)
