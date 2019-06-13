@@ -10,10 +10,11 @@ jobs:
     - run: npm i
     # commitlint
     - run: bash script/commitlint-circleci.sh
-    - run: dep ensure
     # gometalinter
     - run: npm run lint
     # go test
     - run: bash script/coverage.sh
     # upload codecov
     - run: bash <(curl -s https://codecov.io/bash)
+    environment:
+      GO111MODULE: on
