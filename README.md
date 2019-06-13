@@ -13,6 +13,7 @@ set data structure for golang.
 ## Other libraries
 
 * https://github.com/avelino/awesome-go#data-structures
+* https://github.com/scylladb/go-set
 * https://github.com/deckarep/golang-set
 * https://github.com/Workiva/go-datastructures#set
 * https://github.com/yourbasic/bit
