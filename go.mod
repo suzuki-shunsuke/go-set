@@ -1,5 +1,5 @@
-module github.com/suzuki-shunsuke/go-set
+module github.com/suzuki-shunsuke/go-set/v6
 
-go 1.12
+go 1.13
 
-require github.com/mitchellh/mapstructure v0.0.0-20180220230111-00c29f56e238
+require github.com/mitchellh/mapstructure v1.1.2

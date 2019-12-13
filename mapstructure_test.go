@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/mitchellh/mapstructure"
-	"github.com/suzuki-shunsuke/go-set"
+	"github.com/suzuki-shunsuke/go-set/v6"
 )
 
 func TestMapstructureDecodeHookFromListToStrSet(t *testing.T) {

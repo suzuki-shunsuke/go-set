@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/suzuki-shunsuke/go-set"
+	"github.com/suzuki-shunsuke/go-set/v6"
 )
 
 func TestStrSetHas(t *testing.T) {
